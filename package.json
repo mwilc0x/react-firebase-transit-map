@@ -1,0 +1,45 @@
+{
+  "name": "react-firebase-transit-map",
+  "version": "0.0.1",
+  "description": "React + Firebase + Google Maps",
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mjw56/react-firebase-transit-map"
+  },
+  "keywords": [
+    "transit",
+    "react",
+    "reactjs",
+    "firebase",
+    "google maps"
+  ],
+  "author": "Mike Wilcox",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mjw56/react-firebase-transit-map/issues"
+  },
+  "homepage": "https://github.com/mjw56/react-firebase-transit-map",
+  "dependencies": {
+    "firebase": "^1.1.2",
+    "react": "~0.11.2",
+    "reactfire": "~0.3.0",
+    "react-googlemaps": "^0.3.0"
+  },
+  "devDependencies": {
+    "browser-sync": "^1.3.7",
+    "browserify": "^5.11.2",
+    "del": "^0.1.3",
+    "gulp": "^3.8.8",
+    "gulp-autoprefixer": "0.0.8",
+    "gulp-changed": "^1.0.0",
+    "gulp-csso": "^0.2.9",
+    "gulp-notify": "^1.6.0",
+    "gulp-uglify": "^1.0.1",
+    "reactify": "^0.14.0",
+    "superagent": "^0.18.2",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^0.1.1",
+    "watchify": "^1.0.2"
+  }
+}
