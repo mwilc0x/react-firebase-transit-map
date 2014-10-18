@@ -1,4 +1,6 @@
-# React Google Maps with Firebase
+# React Firebase Transit Map
+
+WIP React and Firebase component
 
 ## Usage
 
