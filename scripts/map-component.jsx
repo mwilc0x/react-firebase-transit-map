@@ -15,40 +15,49 @@ var GoogleFirebaseTransit = React.createClass({
 
   mixins: [ReactFireMixin],
 
+  /**
+  * Set initial map position
+  */
   getInitialState: function() {
     return {
       center: new LatLng(40.5227578,-74.4396854),
       zoom: 13,
-      markers: [
-        { position: new LatLng(40.522, -74.43) }
-      ],
+      markers: {},
       buses: {}
     };
   },
 
+  /**
+  * Bind initial firebase markers to UI
+  * TODO: see if these can moved
+  */
   componentWillMount: function() {
 
     var transit = TransitService.transitLine();
 
-    var _this = this;
+    var that = this;
 
     transit.once("value", function (s) {
         s.forEach(function (b) {
-          _this.state.markers = TransitService.addBuses(b);
+          that.renderMarker(b.val(),b.name())
         });
     });
 
     transit.on("child_changed", function (s) {
-        var busMarker = TransitService.buses[s.name()];
+        var busMarker = that.state.markers[s.name()];
+
         if (typeof busMarker === "undefined") {
-            TransitService.newBus(s.val(), s.name());
+            that.renderMarker(s.val(), s.name())
+        } else {
+            that.state.markers[s.name()] = that.moveMarker(s.val().lat, s.val().lon, busMarker);
         }
     });
 
     transit.on("child_removed", function (s) {
-        var busMarker = TransitService.buses[s.name()];
+        var busMarker = that.state.markers[s.name()];
+
         if (typeof busMarker !== "undefined") {
-            busMarker.setMap(null);
+            //busMarker.setMap(null);
             delete TransitService.buses[s.name()];
         }
     });
@@ -56,20 +65,39 @@ var GoogleFirebaseTransit = React.createClass({
     this.bindAsObject(transit, 'buses')
   },
 
+  /**
+  * Render the UI
+  */
   render: function() {
     return (
       <Map
+        map={this.props.map}
         initialZoom={this.state.zoom}
         initialCenter={this.state.center}
         width={700}
         height={700}>
-        {this.state.markers.map(this.renderMarkers)}
+        {this.state.markers}
       </Map>
       );
   },
 
-  renderMarkers: function(state, i) {
-    return (<Marker position={state.position} key={i} />);
+  /**
+  * Render a maps marker
+  */
+  renderMarker: function(bus, id) {
+    this.state.markers[id] = <Marker position={new LatLng(bus.lat, bus.lon)} key={id} />;
+  },
+
+  /**
+  * Move the marker when position updated
+  * TODO: get this to work!
+  */
+  moveMarker: function(lat, lon, marker) {
+
+    marker['props']['position']['B'] = lon;
+    marker['props']['position']['k'] = lat;
+
+    return marker;
   }
 
 });
