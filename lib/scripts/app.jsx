@@ -13,8 +13,6 @@ window.React = React;
 
 var GoogleFirebaseTransitMap = require('./map-component.jsx');
 
-console.log(routes);
-
 /**
 * Render a simple demo withe the map component
 * and a bootstrap dropdown
@@ -46,7 +44,6 @@ var Demo = React.createClass({
     update = React.addons.update(this.state, {
       center: { $set: center },
       hub: { $set: hub }
-
     });
 
     this.setState(update);

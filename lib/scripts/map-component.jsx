@@ -42,7 +42,7 @@ var GoogleFirebaseTransitMap = React.createClass({
   componentWillReceiveProps: function(props) {
 
     this.setState({
-      center: props.center > this.props.center
+      center: props.center
     });
 
   },
@@ -102,7 +102,7 @@ var GoogleFirebaseTransitMap = React.createClass({
       <Map
         map={this.props.map}
         initialZoom={this.state.zoom}
-        initialCenter={this.state.center}
+        center={this.state.center}
         width={700}
         height={700}>
         {this.state.markers}
