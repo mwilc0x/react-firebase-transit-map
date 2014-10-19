@@ -6,9 +6,12 @@ var React = require('react');
 var ReactBootstrap = require('react-bootstrap');
 var DropdownButton = ReactBootstrap.DropdownButton;
 var MenuItem = ReactBootstrap.MenuItem;
+var routes = require('../data/hubs.json');
 window.React = React;
 
 var GoogleFirebaseTransitMap = require('./map-component.jsx');
+
+console.log(routes);
 
 /**
 * Render a simple demo withe the map component
@@ -19,11 +22,8 @@ var Demo = React.createClass({
     return (
       <div>
         <DropdownButton bsStyle="Default" title="Cities">
-          <MenuItem key="1">Action</MenuItem>
-          <MenuItem key="2">Another action</MenuItem>
-          <MenuItem key="3">Something else here</MenuItem>
-          <MenuItem divider />
-          <MenuItem key="4">Separated link</MenuItem>
+          <MenuItem key="1">todo</MenuItem>
+          <MenuItem key="2">todo</MenuItem>
         </DropdownButton>
         <GoogleFirebaseTransitMap></GoogleFirebaseTransitMap>
       </div>

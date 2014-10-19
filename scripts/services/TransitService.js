@@ -1,9 +1,8 @@
 'use strict';
 
-var Firebase = require('firebase')
-//var routes = require('../../data/hubs.json');
+var Firebase = require('firebase');
 
-var transitRef = new Firebase('https://publicdata-transit.firebaseio.com/')
+var transitRef = new Firebase('https://publicdata-transit.firebaseio.com/');
 
 /**
 * Get the public transportation route vehicles
