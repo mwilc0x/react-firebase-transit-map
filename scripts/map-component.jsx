@@ -24,7 +24,7 @@ var GoogleFirebaseTransitMap = React.createClass({
     console.log(ReactAddons)
 
     return {
-      center: new LatLng(40.5227578,-74.4396854),
+      center: new LatLng(34.052233999999999,-118.243685),
       zoom: 13,
       markers: {},
       buses: {}

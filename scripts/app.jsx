@@ -22,14 +22,14 @@ var Demo = React.createClass({
   getInitialState: function() {
     return {
       items: routes,
-      city: "cities"
+      hub: "Los Angeles Rail"
      };
   },
 
   itemSelect: function(key) {
-    
+
     var update = React.addons.update(this.state, {
-      city: { $set: key }});
+      hub: { $set: key }});
 
     this.setState(update);
 
@@ -45,7 +45,7 @@ var Demo = React.createClass({
 
     return (
       <div>
-        <DropdownButton bsStyle="Default" title={this.state.city}>
+        <DropdownButton bsStyle="Default" title={this.state.hub}>
             {menuItems}
         </DropdownButton>
         <GoogleFirebaseTransitMap></GoogleFirebaseTransitMap>
