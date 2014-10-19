@@ -2,17 +2,17 @@
 "use strict";
 
 var React = require('react');
-var ReactAddons = require('react/addons')
+var ReactAddons = require('react/addons');
 var ReactGoogleMaps = require('react-googlemaps');
-var ReactFireMixin = require('reactfire')
+var ReactFireMixin = require('reactfire');
 var GoogleMapsAPI = window.google.maps;
 var Map = ReactGoogleMaps.Map;
 var LatLng = GoogleMapsAPI.LatLng;
 var Marker = ReactGoogleMaps.Marker;
 
-var TransitService = require('./services/TransitService')
+var TransitService = require('./services/TransitService');
 
-var GoogleFirebaseTransit = React.createClass({
+var GoogleFirebaseTransitMap = React.createClass({
 
   mixins: [ReactFireMixin],
 
@@ -53,11 +53,11 @@ var GoogleFirebaseTransit = React.createClass({
         if (typeof busMarker === "undefined") {
             that.renderMarker(s.val(), s.name())
         } else {
+            var id = s.name();
+            var update = React.addons.update(that.state, {
+              markers: { id: {$set: that.moveMarker(s.val().lat, s.val().lon, busMarker) }}});
 
-            var update = React.addons.update(that.state.markers,
-              {$merge: that.moveMarker(s.val().lat, s.val().lon, busMarker) });
-
-            that.setState({ markers: update, zoom: 15 });
+            that.setState(update);
 
         }
     });
@@ -111,4 +111,4 @@ var GoogleFirebaseTransit = React.createClass({
 
 });
 
-module.exports = GoogleFirebaseTransit;
+module.exports = GoogleFirebaseTransitMap;
