@@ -57,41 +57,9 @@ var GoogleFirebaseTransitMap = React.createClass({
   */
   componentWillMount: function() {
 
-    var transit = TransitService.transitLine();
+    this._bindFirebaseEvents(TransitService.transitLine())
 
-    var that = this;
-
-    transit.once("value", function (s) {
-        s.forEach(function (b) {
-          that.renderMarker(b.val(),b.name())
-        });
-    });
-
-    transit.on("child_changed", function (s) {
-        var busMarker = that.state.markers[s.name()];
-
-        if (typeof busMarker === "undefined") {
-            that.renderMarker(s.val(), s.name())
-        } else {
-            var id = s.name();
-            var update = React.addons.update(that.state, {
-              markers: { id: {$set: that.moveMarker(s.val().lat, s.val().lon, busMarker) }}});
-
-            that.setState(update);
-
-        }
-    });
-
-    transit.on("child_removed", function (s) {
-        var busMarker = that.state.markers[s.name()];
-
-        if (typeof busMarker !== "undefined") {
-            //busMarker.setMap(null);
-            delete that.state.markers[s.name()];
-        }
-    });
-
-    this.bindAsObject(transit, 'buses')
+    this.bindAsObject(TransitService.transitLine(), 'buses')
   },
 
   /**
@@ -113,8 +81,37 @@ var GoogleFirebaseTransitMap = React.createClass({
   /**
   * Render a maps marker
   */
-  renderMarker: function(bus, id) {
-    this.state.markers[id] = <Marker position={new LatLng(bus.lat, bus.lon)} key={id} />;
+  _renderMarker: function(marker) {
+    this.state.markers[marker.name()] = <Marker position={new LatLng(marker.val().lat, marker.val().lon)} key={marker.name()} />;
+  },
+
+  _bindFirebaseEvents: function(stream) {
+    stream.once("value", function (s) {
+        s.forEach(this._renderMarker);
+    }, this);
+
+    stream.on("child_changed", function (s) {
+        var busMarker = this.state.markers[s.name()];
+
+        if (typeof busMarker === "undefined") {
+            this._renderMarker(s.val(), s.name())
+        } else {
+            var id = s.name();
+            var update = React.addons.update(this.state, {
+              markers: { id: {$set: this.moveMarker(s.val().lat, s.val().lon, busMarker) }}});
+
+            this.setState(update);
+        }
+    }, this);
+
+    stream.on("child_removed", function (s) {
+        var busMarker = this.state.markers[s.name()];
+
+        if (typeof busMarker !== "undefined") {
+            //busMarker.setMap(null);
+            delete this.state.markers[s.name()];
+        }
+    }, this);
   },
 
   /**
