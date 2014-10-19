@@ -11,7 +11,7 @@ var LatLng = GoogleMapsAPI.LatLng;
 var routes = require('../../data/hubs.json');
 window.React = React;
 
-var GoogleFirebaseTransitMap = require('./map-component.jsx');
+var GoogleFirebaseTransitMap = require('./components/map-component.jsx');
 
 /**
 * Render a simple demo withe the map component

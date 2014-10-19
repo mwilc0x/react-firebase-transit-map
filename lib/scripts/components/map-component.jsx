@@ -10,7 +10,7 @@ var Map = ReactGoogleMaps.Map;
 var LatLng = GoogleMapsAPI.LatLng;
 var Marker = ReactGoogleMaps.Marker;
 
-var TransitService = require('./services/TransitService');
+var TransitService = require('../services/TransitService');
 
 var GoogleFirebaseTransitMap = React.createClass({
 
