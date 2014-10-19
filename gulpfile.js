@@ -16,7 +16,7 @@ var gulp = require('gulp'),
     reload = browserSync.reload,
     p = {
       jsx: './scripts/app.jsx',
-      scss: 'styles/main.scss',
+      css: 'styles/bootstrap.min.css',
       bundle: 'app.js',
       distJs: 'dist/js',
       distCss: 'dist/css'
@@ -57,20 +57,18 @@ gulp.task('browserify', function() {
     .bundle()
     .pipe(source(p.bundle))
     .pipe(buffer())
-    .pipe(uglify())
+    //.pipe(uglify())
     .pipe(gulp.dest(p.distJs));
 });
 
-// gulp.task('styles', function() {
-//   return gulp.src(p.scss)
-//     .pipe(changed(p.distCss))
-//     .pipe(sass({errLogToConsole: true}))
-//     .on('error', notify.onError())
-//     .pipe(autoprefixer('last 1 version'))
-//     .pipe(csso())
-//     .pipe(gulp.dest(p.distCss))
-//     .pipe(reload({stream: true}));
-// });
+gulp.task('styles', function() {
+  return gulp.src(p.css)
+    .pipe(changed(p.distCss))
+    .pipe(autoprefixer('last 1 version'))
+    .pipe(csso())
+    .pipe(gulp.dest(p.distCss))
+    .pipe(reload({stream: true}));
+});
 
 gulp.task('watchTask', function() {
   gulp.watch(p.scss, ['styles']);
@@ -82,7 +80,7 @@ gulp.task('watch', ['clean'], function() {
 
 gulp.task('build', ['clean'], function() {
   process.env.NODE_ENV = 'production';
-  gulp.start(['browserify']);
+  gulp.start(['browserify', 'styles']);
 });
 
 gulp.task('default', ['build', 'watch']);
