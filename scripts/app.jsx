@@ -18,12 +18,23 @@ console.log(routes);
 * and a bootstrap dropdown
 */
 var Demo = React.createClass({
+
+  getInitialState: function() {
+    return { items: routes };
+  },
+
   render: function() {
+
+    var menuItems = this.state.items.transitSystems.map(function(item, i) {
+      return (
+        <MenuItem key={item.tag}>{item.name}</MenuItem>
+      );
+    }, this);
+
     return (
       <div>
         <DropdownButton bsStyle="Default" title="Cities">
-          <MenuItem key="1">todo</MenuItem>
-          <MenuItem key="2">todo</MenuItem>
+            {menuItems}
         </DropdownButton>
         <GoogleFirebaseTransitMap></GoogleFirebaseTransitMap>
       </div>
