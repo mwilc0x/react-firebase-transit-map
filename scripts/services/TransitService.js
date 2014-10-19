@@ -1,7 +1,7 @@
 'use strict';
 
 var Firebase = require('firebase')
-var routes = require('../../data/hubs.json');
+//var routes = require('../../data/hubs.json');
 
 var transitRef = new Firebase('https://publicdata-transit.firebaseio.com/')
 
@@ -10,7 +10,7 @@ var transitRef = new Firebase('https://publicdata-transit.firebaseio.com/')
 */
 function transitLine(line) {
   line = line || 'rutgers';
-  return transitRef.child('rutgers/vehicles');
+  return transitRef.child(line + '/vehicles');
 }
 
 module.exports = {

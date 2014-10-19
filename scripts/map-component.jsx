@@ -2,6 +2,7 @@
 "use strict";
 
 var React = require('react');
+var ReactAddons = require('react/addons')
 var ReactGoogleMaps = require('react-googlemaps');
 var ReactFireMixin = require('reactfire')
 var GoogleMapsAPI = window.google.maps;
@@ -19,6 +20,9 @@ var GoogleFirebaseTransit = React.createClass({
   * Set initial map position
   */
   getInitialState: function() {
+
+    console.log(ReactAddons)
+
     return {
       center: new LatLng(40.5227578,-74.4396854),
       zoom: 13,
@@ -49,7 +53,12 @@ var GoogleFirebaseTransit = React.createClass({
         if (typeof busMarker === "undefined") {
             that.renderMarker(s.val(), s.name())
         } else {
-            that.state.markers[s.name()] = that.moveMarker(s.val().lat, s.val().lon, busMarker);
+
+            var update = React.addons.update(that.state.markers,
+              {$merge: that.moveMarker(s.val().lat, s.val().lon, busMarker) });
+
+            that.setState({ markers: update, zoom: 15 });
+
         }
     });
 
