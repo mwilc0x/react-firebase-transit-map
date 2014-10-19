@@ -21,14 +21,34 @@ var GoogleFirebaseTransitMap = React.createClass({
   */
   getInitialState: function() {
 
-    console.log(ReactAddons)
-
     return {
-      center: new LatLng(34.052233999999999,-118.243685),
       zoom: 13,
       markers: {},
-      buses: {}
+      buses: {},
+      center: new LatLng(34.052233999999999,-118.243685)
     };
+  },
+
+  /**
+  * Initial default props
+  */
+  getDefaultProps: function(){
+
+  },
+
+  /**
+  * Get notified when parent props have updated
+  */
+  componentWillReceiveProps: function(props) {
+
+    this.setState({
+      center: props.center > this.props.center
+    });
+
+  },
+
+  shouldComponentUpdate: function(nextProps, nextState) {
+    return true;
   },
 
   /**
@@ -67,7 +87,7 @@ var GoogleFirebaseTransitMap = React.createClass({
 
         if (typeof busMarker !== "undefined") {
             //busMarker.setMap(null);
-            delete TransitService.buses[s.name()];
+            delete that.state.markers[s.name()];
         }
     });
 
