@@ -20,20 +20,32 @@ console.log(routes);
 var Demo = React.createClass({
 
   getInitialState: function() {
-    return { items: routes };
+    return {
+      items: routes,
+      city: "cities"
+     };
+  },
+
+  itemSelect: function(key) {
+    
+    var update = React.addons.update(this.state, {
+      city: { $set: key }});
+
+    this.setState(update);
+
   },
 
   render: function() {
 
     var menuItems = this.state.items.transitSystems.map(function(item, i) {
       return (
-        <MenuItem key={item.tag}>{item.name}</MenuItem>
+        <MenuItem key={item.name} onSelect={this.itemSelect}>{item.name}</MenuItem>
       );
     }, this);
 
     return (
       <div>
-        <DropdownButton bsStyle="Default" title="Cities">
+        <DropdownButton bsStyle="Default" title={this.state.city}>
             {menuItems}
         </DropdownButton>
         <GoogleFirebaseTransitMap></GoogleFirebaseTransitMap>
