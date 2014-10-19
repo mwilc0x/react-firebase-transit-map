@@ -6,7 +6,7 @@ var React = require('react');
 var ReactBootstrap = require('react-bootstrap');
 var DropdownButton = ReactBootstrap.DropdownButton;
 var MenuItem = ReactBootstrap.MenuItem;
-var routes = require('../data/hubs.json');
+var routes = require('../../data/hubs.json');
 window.React = React;
 
 var GoogleFirebaseTransitMap = require('./map-component.jsx');
