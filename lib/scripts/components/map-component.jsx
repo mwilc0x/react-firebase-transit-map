@@ -45,6 +45,11 @@ var GoogleFirebaseTransitMap = React.createClass({
       center: props.center
     });
 
+    // location has changed so we have to erase
+    // old markers and load in new ones
+    this._removeOldMarkers();
+    this._bindFirebaseEvents(TransitService.updateTransitLine(props.id));
+
   },
 
   shouldComponentUpdate: function(nextProps, nextState) {
@@ -82,6 +87,7 @@ var GoogleFirebaseTransitMap = React.createClass({
   * Render a maps marker
   */
   _renderMarker: function(marker) {
+    if(!marker.name) return;
     this.state.markers[marker.name()] = <Marker position={new LatLng(marker.val().lat, marker.val().lon)} key={marker.name()} />;
   },
 
@@ -124,6 +130,12 @@ var GoogleFirebaseTransitMap = React.createClass({
     marker['props']['position']['k'] = lat;
 
     return marker;
+  },
+
+  _removeOldMarkers: function() {
+    for(var key in this.state.markers) {
+      delete this.state.markers[key];
+    }
   }
 
 });

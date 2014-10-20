@@ -23,7 +23,8 @@ var Demo = React.createClass({
     return {
       items: routes,
       hub: "Los Angeles Rail",
-      center: {}
+      center: {},
+      id: 'lametro-rail'
      };
   },
 
@@ -32,7 +33,8 @@ var Demo = React.createClass({
     var routes = this.state.items.transitSystems,
         i,
         center,
-        update;
+        update,
+        id;
 
     for(i = 0; i < routes.length; i++) {
       if(routes[i].name === hub)
@@ -40,10 +42,12 @@ var Demo = React.createClass({
     }
 
     center = new LatLng(routes[i].lat, routes[i].lon);
+    id = routes[i].tag;
 
     update = React.addons.update(this.state, {
       center: { $set: center },
-      hub: { $set: hub }
+      hub: { $set: hub },
+      id: { $set: id}
     });
 
     this.setState(update);
@@ -63,7 +67,7 @@ var Demo = React.createClass({
         <DropdownButton bsStyle="Default" title={this.state.hub}>
             {menuItems}
         </DropdownButton>
-        <GoogleFirebaseTransitMap center={this.state.center}></GoogleFirebaseTransitMap>
+        <GoogleFirebaseTransitMap center={this.state.center} id={this.state.id}></GoogleFirebaseTransitMap>
       </div>
     );
   }
