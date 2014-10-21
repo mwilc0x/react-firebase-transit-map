@@ -11,10 +11,24 @@ var LatLng = GoogleMapsAPI.LatLng;
 var Marker = ReactGoogleMaps.Marker;
 
 var TransitService = require('../services/TransitService');
+var Store = require('../store/store.jsx');
+
+var store = new Store();
 
 var GoogleFirebaseTransitMap = React.createClass({
 
   mixins: [ReactFireMixin],
+
+  propTypes: {
+    center: React.PropTypes.object,
+    id: React.PropTypes.string.isRequired
+  },
+
+  getDefaultProps: function() {
+    return {
+      // no default props yet...
+    }
+  },
 
   /**
   * Set initial map position
@@ -26,6 +40,7 @@ var GoogleFirebaseTransitMap = React.createClass({
       markers: {},
       center: new LatLng(34.052233999999999,-118.243685)
     };
+
   },
 
   /**
@@ -134,10 +149,12 @@ var GoogleFirebaseTransitMap = React.createClass({
         curLng = fromLng + percent * (toLng - fromLng);
         frames.push(new LatLng(toLat, toLng));
     }
-    
+
     move = function (that, latlngs, index, wait) {
 
-        that.state.markers[id].props.position = latlngs[index];
+        //that.state.markers[id].props.position = latlngs[index];
+
+
 
         if (index !== latlngs.length - 1) {
             setTimeout(function () {

@@ -12,6 +12,9 @@ var routes = require('../../data/hubs.json');
 window.React = React;
 
 var GoogleFirebaseTransitMap = require('./components/map-component.jsx');
+var Store = require("./store/store.jsx");
+
+var store = new Store();
 
 /**
 * Render a simple demo withe the map component
@@ -44,14 +47,22 @@ var Demo = React.createClass({
     center = new LatLng(routes[i].lat, routes[i].lon);
     id = routes[i].tag;
 
+    //store.update(center);
+
     update = React.addons.update(this.state, {
-      center: { $set: center },
       hub: { $set: hub },
-      id: { $set: id}
+      id: { $set: id},
+      center: { $set: center }
     });
 
     this.setState(update);
 
+  },
+
+  componentDidMount: function() {
+    store.on("change", function() {
+      this.setState(this._getStateFromStore());
+    }.bind(this))
   },
 
   render: function() {
@@ -70,6 +81,12 @@ var Demo = React.createClass({
         <GoogleFirebaseTransitMap center={this.state.center} id={this.state.id}></GoogleFirebaseTransitMap>
       </div>
     );
+  },
+
+  _getStateFromStore: function() {
+    return {
+      center: store.center
+    }
   }
 });
 
