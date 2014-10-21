@@ -24,16 +24,8 @@ var GoogleFirebaseTransitMap = React.createClass({
     return {
       zoom: 13,
       markers: {},
-      buses: {},
       center: new LatLng(34.052233999999999,-118.243685)
     };
-  },
-
-  /**
-  * Initial default props
-  */
-  getDefaultProps: function(){
-
   },
 
   /**
@@ -97,16 +89,13 @@ var GoogleFirebaseTransitMap = React.createClass({
     }, this);
 
     stream.on("child_changed", function (s) {
+
         var busMarker = this.state.markers[s.name()];
 
         if (typeof busMarker === "undefined") {
             this._renderMarker(s.val(), s.name())
         } else {
-            var id = s.name();
-            var update = React.addons.update(this.state, {
-              markers: { id: {$set: this.moveMarker(s.val().lat, s.val().lon, busMarker) }}});
-
-            this.setState(update);
+            this.state.markers[s.name()].props.position = new LatLng(s.val().lat, s.val().lon);
         }
     }, this);
 
@@ -114,22 +103,9 @@ var GoogleFirebaseTransitMap = React.createClass({
         var busMarker = this.state.markers[s.name()];
 
         if (typeof busMarker !== "undefined") {
-            //busMarker.setMap(null);
             delete this.state.markers[s.name()];
         }
     }, this);
-  },
-
-  /**
-  * Move the marker when position updated
-  * TODO: get this to work!
-  */
-  moveMarker: function(lat, lon, marker) {
-
-    marker['props']['position']['B'] = lon;
-    marker['props']['position']['k'] = lat;
-
-    return marker;
   },
 
   _removeOldMarkers: function() {
