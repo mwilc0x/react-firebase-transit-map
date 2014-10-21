@@ -95,7 +95,16 @@ var GoogleFirebaseTransitMap = React.createClass({
   */
   _renderMarker: function(marker) {
     if(!marker.name) return;
-    this.state.markers[marker.name()] = <Marker position={new LatLng(marker.val().lat, marker.val().lon)} key={marker.name()} />;
+
+    var newMarker = {}
+    newMarker[marker.name()] = <Marker position={new LatLng(marker.val().lat, marker.val().lon)} key={marker.name()} /> ;
+
+    var update = React.addons.update(this.state, {
+      markers: { $merge: newMarker }
+    });
+
+    this.setState(update);
+
   },
 
   _bindFirebaseEvents: function(stream) {
@@ -110,7 +119,6 @@ var GoogleFirebaseTransitMap = React.createClass({
         if (typeof busMarker === "undefined") {
             this._renderMarker(s.val(), s.name())
         } else {
-            //this.state.markers[s.name()].props.position = new LatLng(s.val().lat, s.val().lon);
             this._animatedMoveTo(s.name(), s.val().lat, s.val().lon, this.state.markers[s.name()].props.position)
         }
     }, this);
@@ -144,7 +152,7 @@ var GoogleFirebaseTransitMap = React.createClass({
         return;
     }
 
-    for (percent = 0; percent < 1; percent += 0.005) {
+    for (percent = 0; percent < 1; percent += 0.015) {
         curLat = fromLat + percent * (toLat - fromLat);
         curLng = fromLng + percent * (toLng - fromLng);
         frames.push(new LatLng(toLat, toLng));
@@ -152,9 +160,14 @@ var GoogleFirebaseTransitMap = React.createClass({
 
     move = function (that, latlngs, index, wait) {
 
-        //that.state.markers[id].props.position = latlngs[index];
+        var marker = {}
+        marker[id] = <Marker position={latlngs[index]} key={id} /> ;
 
+        var update = React.addons.update(that.state, {
+          markers: { $merge: marker }
+        });
 
+        that.setState(update);
 
         if (index !== latlngs.length - 1) {
             setTimeout(function () {
