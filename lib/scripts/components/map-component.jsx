@@ -95,7 +95,8 @@ var GoogleFirebaseTransitMap = React.createClass({
         if (typeof busMarker === "undefined") {
             this._renderMarker(s.val(), s.name())
         } else {
-            this.state.markers[s.name()].props.position = new LatLng(s.val().lat, s.val().lon);
+            //this.state.markers[s.name()].props.position = new LatLng(s.val().lat, s.val().lon);
+            this._animatedMoveTo(s.name(), s.val().lat, s.val().lon, this.state.markers[s.name()].props.position)
         }
     }, this);
 
@@ -112,6 +113,39 @@ var GoogleFirebaseTransitMap = React.createClass({
     for(var key in this.state.markers) {
       delete this.state.markers[key];
     }
+  },
+
+  _feq: function(f1, f2) {
+      return (Math.abs(f1 - f2) < 0.000001);
+  },
+
+  _animatedMoveTo: function (id, toLat, toLng, startPos) {
+    var fromLat, fromLng, frames = [], percent, curLat, curLng, move;
+
+    fromLat = startPos.k;
+    fromLng = startPos.B;
+
+    if (this._feq(fromLat, toLat) && this._feq(fromLng, toLng)) {
+        return;
+    }
+
+    for (percent = 0; percent < 1; percent += 0.005) {
+        curLat = fromLat + percent * (toLat - fromLat);
+        curLng = fromLng + percent * (toLng - fromLng);
+        frames.push(new LatLng(toLat, toLng));
+    }
+    
+    move = function (that, latlngs, index, wait) {
+
+        that.state.markers[id].props.position = latlngs[index];
+
+        if (index !== latlngs.length - 1) {
+            setTimeout(function () {
+                move(that, latlngs, index + 1, wait);
+            }, wait);
+        }
+    };
+    move(this, frames, 0, 45);
   }
 
 });
