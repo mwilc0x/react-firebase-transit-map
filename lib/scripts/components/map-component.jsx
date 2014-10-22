@@ -127,15 +127,23 @@ var GoogleFirebaseTransitMap = React.createClass({
         var busMarker = this.state.markers[s.name()];
 
         if (typeof busMarker !== "undefined") {
-            delete this.state.markers[s.name()];
+            var state = this.state;
+
+            delete state.markers[s.name()];
+
+            this.setState(state);
         }
     }, this);
   },
 
   _removeOldMarkers: function() {
-    for(var key in this.state.markers) {
-      delete this.state.markers[key];
+    var markers = this.state.markers;
+
+    for(var key in markers) {
+      delete markers[key];
     }
+
+    this.setState(markers);
   },
 
   _feq: function(f1, f2) {
