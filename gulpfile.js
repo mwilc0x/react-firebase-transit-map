@@ -9,7 +9,6 @@ var gulp = require('gulp'),
     source = require('vinyl-source-stream'),
     buffer = require('vinyl-buffer'),
     reactify = require('reactify'),
-    uglify = require('gulp-uglify'),
     del = require('del'),
     notify = require('gulp-notify'),
     browserSync = require('browser-sync'),
@@ -17,9 +16,11 @@ var gulp = require('gulp'),
     p = {
       jsx: './lib/scripts/app.jsx',
       css: ['lib/styles/main.css', 'lib/styles/bootstrap.min.css'],
+      images: 'lib/images/bus.png',
       bundle: 'app.js',
       distJs: 'dist/js',
-      distCss: 'dist/css'
+      distCss: 'dist/css',
+      distImages: 'dist/images'
     };
 
 gulp.task('clean', function(cb) {
@@ -27,6 +28,7 @@ gulp.task('clean', function(cb) {
 });
 
 gulp.task('browserSync', function() {
+
   browserSync({
     server: {
       baseDir: './'
@@ -35,6 +37,7 @@ gulp.task('browserSync', function() {
 });
 
 gulp.task('watchify', function() {
+
   var bundler = watchify(browserify(p.jsx, watchify.args));
 
   function rebundle() {
@@ -70,17 +73,22 @@ gulp.task('styles', function() {
     .pipe(reload({stream: true}));
 });
 
+gulp.task('images', function() {
+  return gulp.src(p.images)
+    .pipe(gulp.dest(p.distImages));
+});
+
 gulp.task('watchTask', function() {
-  gulp.watch(p.scss, ['styles']);
+  gulp.watch(p.css, ['styles']);
 });
 
 gulp.task('watch', ['clean'], function() {
-  gulp.start(['browserSync', 'watchify']);
+  gulp.start(['browserSync', 'watchTask', 'watchify', 'styles', 'images']);
 });
 
 gulp.task('build', ['clean'], function() {
   process.env.NODE_ENV = 'production';
-  gulp.start(['browserify', 'styles']);
+  gulp.start(['browserify', 'styles', 'images']);
 });
 
 gulp.task('default', ['build', 'watch']);
