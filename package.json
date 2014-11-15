@@ -34,6 +34,7 @@
     "gulp": "^3.8.9",
     "gulp-autoprefixer": "1.0.1",
     "gulp-changed": "^1.0.0",
+    "gulp-concat-css": "^1.1.0",
     "gulp-csso": "^0.2.9",
     "gulp-image": "^0.5.1",
     "gulp-notify": "^2.0.0",
