@@ -97,7 +97,7 @@ var GoogleFirebaseTransitMap = React.createClass({
     if(!marker.name) return;
 
     var newMarker = {}
-    newMarker[marker.name()] = <Marker position={new LatLng(marker.val().lat, marker.val().lon)} key={marker.name()} /> ;
+    newMarker[marker.name()] = <Marker position={new LatLng(marker.val().lat, marker.val().lon)} key={marker.name()} icon="dist/images/bus.png" /> ;
 
     var update = React.addons.update(this.state, {
       markers: { $merge: newMarker }
