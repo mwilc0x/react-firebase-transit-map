@@ -90,4 +90,4 @@ var Demo = React.createClass({
   }
 });
 
-React.renderComponent(<Demo />, document.getElementById('content'));
+React.render(<Demo />, document.getElementById('content'));
