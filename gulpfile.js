@@ -61,7 +61,6 @@ gulp.task('browserify', function() {
     .bundle()
     .pipe(source(p.bundle))
     .pipe(buffer())
-    //.pipe(uglify())
     .pipe(gulp.dest(p.distJs));
 });
 
