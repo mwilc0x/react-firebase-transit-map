@@ -4,7 +4,6 @@
 var React = require('react');
 var ReactAddons = require('react/addons');
 var ReactGoogleMaps = require('react-googlemaps');
-var ReactFireMixin = require('reactfire');
 var GoogleMapsAPI = window.google.maps;
 var Map = ReactGoogleMaps.Map;
 var LatLng = GoogleMapsAPI.LatLng;
@@ -16,8 +15,6 @@ var Store = require('../store/store.jsx');
 var store = new Store();
 
 var GoogleFirebaseTransitMap = React.createClass({
-
-  mixins: [ReactFireMixin],
 
   propTypes: {
     center: React.PropTypes.object,
