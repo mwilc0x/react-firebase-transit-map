@@ -75,7 +75,7 @@ var Demo = React.createClass({
 
     return (
       <div>
-        <DropdownButton bsStyle="Default" title={this.state.hub}>
+        <DropdownButton bsStyle="default" title={this.state.hub}>
             {menuItems}
         </DropdownButton>
         <GoogleFirebaseTransitMap center={this.state.center} id={this.state.id}></GoogleFirebaseTransitMap>
